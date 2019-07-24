@@ -5,8 +5,8 @@ import { action } from "@storybook/addon-actions";
 import { linkTo } from "@storybook/addon-links";
 
 import { Button, Welcome } from "@storybook/react/demo";
-import ProTip from "../src/ProTip";
-import Link from "../src/Link";
+import ProTip from "../src/components/ProTip";
+import Link from "../src/components/Link";
 
 storiesOf("Welcome", module).add("to Storybook", () => (
   <Welcome showApp={linkTo("Button")} />

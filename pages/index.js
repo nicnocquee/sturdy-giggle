@@ -3,8 +3,9 @@ import Container from "@material-ui/core/Container";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import MuiLink from "@material-ui/core/Link";
-import ProTip from "../src/ProTip";
-import Link from "../src/Link";
+import ProTip from "../src/components/ProTip";
+import Link from "../src/components/Link";
+import { connect } from "react-redux";
 
 function MadeWithLove() {
   return (
@@ -18,13 +19,18 @@ function MadeWithLove() {
   );
 }
 
-export default function Index() {
+export function Index({ user }) {
   return (
     <Container maxWidth="sm">
       <Box my={4}>
         <Typography variant="h4" component="h1" gutterBottom>
           Next.js v4-beta example
         </Typography>
+        {user && (
+          <Typography variant="h1" component="h1" gutterBottom>
+            Hello, {user.name}
+          </Typography>
+        )}
         <Link href="/about" color="secondary">
           Go to the about page
         </Link>
@@ -34,3 +40,9 @@ export default function Index() {
     </Container>
   );
 }
+
+const mapStateToProps = state => ({
+  user: state.user
+});
+
+export default connect(mapStateToProps)(Index);
