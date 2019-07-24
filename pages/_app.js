@@ -5,6 +5,11 @@ import { ThemeProvider } from "@material-ui/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import theme from "../src/theme";
 
+const defaultAppState = {
+  user: null
+};
+const AppContext = React.createContext(defaultAppState);
+
 class MyApp extends App {
   componentDidMount() {
     // Remove the server-side injected CSS.
@@ -22,11 +27,13 @@ class MyApp extends App {
         <Head>
           <title>My page</title>
         </Head>
-        <ThemeProvider theme={theme}>
-          {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-          <CssBaseline />
-          <Component {...pageProps} />
-        </ThemeProvider>
+        <AppContext.Provider>
+          <ThemeProvider theme={theme}>
+            {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
+            <CssBaseline />
+            <Component {...pageProps} />
+          </ThemeProvider>
+        </AppContext.Provider>
       </Container>
     );
   }
