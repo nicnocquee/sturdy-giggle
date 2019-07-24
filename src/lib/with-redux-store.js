@@ -11,6 +11,7 @@ function getOrCreateStore(initialState) {
   }
 
   if (!clientReduxStore) {
+    console.log(initialState);
     clientReduxStore = initializeStore(initialState);
   }
 
