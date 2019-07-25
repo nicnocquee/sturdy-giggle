@@ -34,15 +34,22 @@ export const guardPage = ({ req, res, router }) => {
       }
     }
 
+    var redirectTo = req.url;
+    if ((redirectTo = "/logout")) {
+      redirectTo = "/";
+    }
     if (shouldRedirect) {
       res.writeHead(302, {
-        Location: `/login?redirect=${req.url}`
+        Location: `/login?redirect=${redirectTo}`
       });
       res.end();
     }
   }
 };
 
+/**
+ * Guard an API End Point by checking if the request comes with the _token in the cookie
+ */
 export const guardAPIEndPoint = () => fn => {
   return (req, res) => {
     const bearerToken = req.cookies._token;
