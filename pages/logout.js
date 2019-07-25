@@ -55,10 +55,13 @@ export default function SignOut() {
 }
 
 SignOut.getInitialProps = async ({ req, router }) => {
-  await apiClient({
-    url: "/api/logout",
-    method: "POST"
-  });
+  await apiClient(
+    {
+      url: "/api/logout",
+      method: "POST"
+    },
+    req
+  );
 
   return {};
 };

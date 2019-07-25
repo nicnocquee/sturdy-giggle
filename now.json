@@ -1,0 +1,8 @@
+{
+  "version": 2,
+  "build": {
+    "env": {
+      "JSON_WEB_TOKEN_SECRET": "@json-web-token-secret"
+    }
+  }
+}
