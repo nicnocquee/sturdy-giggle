@@ -2,7 +2,7 @@ const post = require("micro-post");
 const jwt = require("jsonwebtoken");
 const cookie = require("cookie");
 
-const jwtKey = process.env.JSON_WEB_TOKEN_KEY || "cat-30-ROCK¥";
+const jwtKey = require("../../src/environment").default.jsonWebTokenSecret;
 
 const handler = (req, res) => {
   const {
@@ -16,7 +16,7 @@ const handler = (req, res) => {
       var cookieOptions = {
         path: "/",
         httpOnly: true,
-        secure: process.env.NODE_ENV === "production"
+        secure: require("../../src/environment").default.isProduction
       };
       if (remember) {
         cookieOptions.maxAge = 7 * 24 * 60 * 60;

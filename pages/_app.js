@@ -6,7 +6,7 @@ import { ThemeProvider } from "@material-ui/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import theme from "../src/components/theme";
 import withReduxStore from "../src/lib/with-redux-store";
-import { auth } from "../src/lib/auth";
+import { guardPage } from "../src/lib/auth";
 import { setUser } from "../src/reducers/user";
 
 class MyApp extends App {
@@ -14,7 +14,7 @@ class MyApp extends App {
     let pageProps = {};
 
     const { req, res, reduxStore } = ctx;
-    const user = auth({ req, res, router });
+    const user = guardPage({ req, res, router });
 
     if (user) {
       reduxStore.dispatch(setUser(user));

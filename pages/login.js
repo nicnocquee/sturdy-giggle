@@ -12,8 +12,8 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-import "isomorphic-unfetch";
 import { useRouter } from "next/router";
+import apiClient from "../src/lib/api-client";
 
 function MadeWithLove() {
   return (
@@ -64,17 +64,14 @@ export default function SignIn() {
 
   const onSubmit = async () => {
     setIsLoading(true);
-    const response = await fetch("/api/login", {
+    const response = await apiClient({
+      url: "/api/login",
       method: "POST",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
+      body: {
         username,
         password,
         remember
-      })
+      }
     }).then(resp => resp.json());
     setIsLoading(false);
     const { token } = response;

@@ -1,6 +1,4 @@
-const jwtAuth = require("../../src/lib/micro-jwt-auth-cookie");
-
-const jwtKey = process.env.JSON_WEB_TOKEN_KEY || "cat-30-ROCK¥";
+const { guardAPIEndPoint } = require("../../src/lib/auth");
 
 const handler = (req, res) => {
   console.log("in /user");
@@ -8,4 +6,4 @@ const handler = (req, res) => {
   res.end(JSON.stringify(req.jwt));
 };
 
-export default jwtAuth(jwtKey)(handler);
+export default guardAPIEndPoint()(handler);

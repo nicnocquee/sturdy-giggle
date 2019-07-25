@@ -6,7 +6,7 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-import "isomorphic-unfetch";
+import apiClient from "../src/lib/api-client";
 
 const useStyles = makeStyles(theme => ({
   "@global": {
@@ -54,8 +54,11 @@ export default function SignOut() {
   );
 }
 
-SignOut.getInitialProps = async ({ res }) => {
-  await fetch("/api/logout", { method: "POST" });
+SignOut.getInitialProps = async ({ req, router }) => {
+  await apiClient({
+    url: "/api/logout",
+    method: "POST"
+  });
 
   return {};
 };
