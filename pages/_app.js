@@ -6,40 +6,29 @@ import { ThemeProvider } from "@material-ui/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import theme from "../src/components/theme";
 import withReduxStore from "../src/lib/with-redux-store";
-
-const publicPages = ["/login"];
+import { auth } from "../src/lib/auth";
+import { setUser } from "../src/reducers/user";
 
 class MyApp extends App {
-  static async getInitialProps({ router, ctx: { req, res } }) {
-    if (req) {
-      if (publicPages.indexOf(router.pathname) === -1) {
-        const { parse: cookieParser } = eval("require('cookie')");
-        const { cookie } = req.headers;
-        if (!cookie) {
-          res.writeHead(302, {
-            Location: `/login?redirect=${req.url}`
-          });
-          res.end();
-          return;
-        }
-        if (cookie) {
-          const cookies = cookieParser(cookie);
-          const { _token } = cookies;
-          if (!_token) {
-            res.writeHead(302, {
-              Location: `/login?redirect=${req.url}`
-            });
-            res.end();
-          }
-        }
-      }
+  static async getInitialProps({ router, Component, ctx }) {
+    let pageProps = {};
+
+    const { req, res, reduxStore } = ctx;
+    const user = auth({ req, res, router });
+
+    if (user) {
+      reduxStore.dispatch(setUser(user));
     }
 
-    return {};
+    if (Component.getInitialProps) {
+      pageProps = await Component.getInitialProps({ ...ctx, router });
+    }
+
+    return { user, pageProps };
   }
 
   componentDidMount() {
-    // Remove the server-side injected CSS.
+    // material-ui: Remove the server-side injected CSS.
     const jssStyles = document.querySelector("#jss-server-side");
     if (jssStyles) {
       jssStyles.parentNode.removeChild(jssStyles);

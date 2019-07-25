@@ -22,19 +22,16 @@ module.exports = exports = (secret, whitelist, config = {}) => fn => {
 
     if (!bearerToken && !whitelisted) {
       res.writeHead(401);
-      res.end(config.resAuthMissing || "missing Authorization header");
+      res.end(config.resAuthMissing || "missing token");
       return;
     }
 
     try {
-      const token = bearerToken.replace("Bearer ", "");
-      req.jwt = jwt.verify(token, secret);
+      req.jwt = jwt.verify(bearerToken, secret);
     } catch (err) {
       if (!whitelisted) {
         res.writeHead(401);
-        res.end(
-          config.resAuthInvalid || "invalid token in Authorization header"
-        );
+        res.end(config.resAuthInvalid || "invalid token");
         return;
       }
     }

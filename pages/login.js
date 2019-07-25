@@ -55,6 +55,7 @@ const useStyles = makeStyles(theme => ({
 export default function SignIn() {
   const [username, setUsername] = React.useState("");
   const [password, setPassword] = React.useState("");
+  const [remember, setRemember] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(false);
   const classes = useStyles();
   const router = useRouter();
@@ -71,7 +72,8 @@ export default function SignIn() {
       },
       body: JSON.stringify({
         username,
-        password
+        password,
+        remember
       })
     }).then(resp => resp.json());
     setIsLoading(false);
@@ -135,8 +137,14 @@ export default function SignIn() {
             onChange={e => setPassword(e.target.value)}
           />
           <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
-            label="Remember me"
+            control={
+              <Checkbox
+                value={remember}
+                onChange={e => setRemember(e.target.checked)}
+                color="primary"
+              />
+            }
+            label="Remember me for 1 week"
           />
           <Button
             type="submit"

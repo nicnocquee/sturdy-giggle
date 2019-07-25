@@ -1,10 +1,12 @@
 import { configureStore } from "redux-starter-kit";
 import userReducer from "./reducers/user";
+import foodReducer from "./reducers/food";
 
 export const initializeStore = preloadedState => {
   const store = configureStore({
     reducer: {
-      user: userReducer
+      user: userReducer,
+      food: foodReducer
     },
     preloadedState
   });
