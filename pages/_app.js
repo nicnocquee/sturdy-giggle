@@ -6,7 +6,6 @@ import { ThemeProvider } from "@material-ui/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import theme from "../src/components/theme";
 import withReduxStore from "../src/lib/with-redux-store";
-import { guardPage } from "../src/lib/auth";
 import { setUser } from "../src/reducers/user";
 
 class MyApp extends App {
@@ -14,17 +13,22 @@ class MyApp extends App {
     let pageProps = {};
 
     const { req, res, reduxStore } = ctx;
-    const user = guardPage({ req, res, router });
+    if (req) {
+      const { guardPage } = await import("../src/lib/auth");
+      const user = await guardPage({ req, res, router });
 
-    if (user) {
-      reduxStore.dispatch(setUser(user));
+      if (user) {
+        reduxStore.dispatch(setUser(user));
+      }
+
+      if (Component.getInitialProps) {
+        pageProps = await Component.getInitialProps({ ...ctx, router });
+      }
+
+      return { user, pageProps };
     }
 
-    if (Component.getInitialProps) {
-      pageProps = await Component.getInitialProps({ ...ctx, router });
-    }
-
-    return { user, pageProps };
+    return {};
   }
 
   componentDidMount() {

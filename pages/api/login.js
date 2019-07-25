@@ -1,10 +1,10 @@
+require("../../src/lib/db");
 const post = require("micro-post");
 const jwt = require("jsonwebtoken");
 const cookie = require("cookie");
+const jwtKey = require("../../src/environment").jsonWebTokenSecret;
 
-const jwtKey = require("../../src/environment").default.jsonWebTokenSecret;
-
-const handler = (req, res) => {
+const handler = async (req, res) => {
   const {
     body: { username, password, remember }
   } = req;
@@ -16,11 +16,18 @@ const handler = (req, res) => {
       var cookieOptions = {
         path: "/",
         httpOnly: true,
-        secure: require("../../src/environment").default.isProduction
+        secure: require("../../src/environment").isProduction
       };
       if (remember) {
         cookieOptions.maxAge = 7 * 24 * 60 * 60;
       }
+
+      const Session = require("../../src/models/session");
+      var session = new Session({
+        token
+      });
+      await session.save();
+
       const setCookie = cookie.serialize("_token", token, cookieOptions);
       res.setHeader("Set-Cookie", setCookie);
       return res.end(

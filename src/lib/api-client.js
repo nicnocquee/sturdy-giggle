@@ -7,7 +7,7 @@ const apiClient = ({ url = "", method = "GET", body = null }, req) => {
   };
   var urlToUse = url;
   if (url.indexOf("http") !== 0) {
-    var baseUrl = require("../environment").default.baseUrl || "";
+    var baseUrl = require("../environment").baseUrl || "";
     if (!baseUrl) {
       if (req) {
         baseUrl = req.headers["host"];
