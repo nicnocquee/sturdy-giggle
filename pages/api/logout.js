@@ -1,8 +1,8 @@
-require("../../src/lib/db");
+require("../../src/server/db");
 
 const cookie = require("cookie");
 const post = require("micro-post");
-const { guardAPIEndPoint } = require("../../src/lib/auth");
+const { guardAPIEndPoint } = require("../../src/server/auth");
 
 const { compose } = require("../../src/lib/util");
 
@@ -10,7 +10,7 @@ const handler = async (req, res) => {
   res.statusCode = 200;
   const token = req.cookies._token;
 
-  const Session = require("../../src/models/session");
+  const Session = require("../../src/server/models/session");
   await Session.findOneAndRemove({ token });
 
   const setCookie = cookie.serialize("_token", "", {

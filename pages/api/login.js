@@ -1,4 +1,4 @@
-require("../../src/lib/db");
+require("../../src/server/db");
 const post = require("micro-post");
 const jwt = require("jsonwebtoken");
 const cookie = require("cookie");
@@ -22,7 +22,7 @@ const handler = async (req, res) => {
         cookieOptions.maxAge = 7 * 24 * 60 * 60;
       }
 
-      const Session = require("../../src/models/session");
+      const Session = require("../../src/server/models/session");
       var session = new Session({
         token
       });

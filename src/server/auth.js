@@ -27,7 +27,7 @@ export const guardPage = async ({ req, res, router }) => {
           shouldRedirect = true;
         } else {
           try {
-            const Session = require("..//models/session");
+            const Session = require("./models/session");
             const savedToken = await Session.findOne({ token: _token });
             if (!savedToken) {
               shouldRedirect = true;
@@ -71,7 +71,7 @@ export const guardAPIEndPoint = () => fn => {
     try {
       const decoded = jwt.verify(bearerToken, jwtKey);
 
-      const Session = require("..//models/session");
+      const Session = require("./models/session");
       const savedToken = await Session.findOne({ token: decoded });
       if (!savedToken) {
         res.writeHead(401);

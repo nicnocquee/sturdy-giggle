@@ -1,7 +1,7 @@
 import { compose } from "../../src/lib/util";
-import { withDb } from "../../src/lib/db";
+import { withDb } from "../../src/server/db";
 
-const { guardAPIEndPoint } = require("../../src/lib/auth");
+const { guardAPIEndPoint } = require("../../src/server/auth");
 
 const handler = (req, res, db) => {
   console.log("in /user");

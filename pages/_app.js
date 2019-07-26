@@ -14,7 +14,7 @@ class MyApp extends App {
 
     const { req, res, reduxStore } = ctx;
     if (req) {
-      const { guardPage } = await import("../src/lib/auth");
+      const { guardPage } = require("../src/server/auth");
       const user = await guardPage({ req, res, router });
 
       if (user) {

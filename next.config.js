@@ -25,8 +25,7 @@ const config = {
     if (config.target === "web") {
       config.plugins = [
         ...config.plugins,
-        new webpack.IgnorePlugin(/mongoose/),
-        new webpack.IgnorePlugin(/lib\/auth/)
+        new webpack.IgnorePlugin(/src\/server/)
       ];
     }
 
